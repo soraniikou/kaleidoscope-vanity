@@ -38,16 +38,41 @@ const ModeToggle = () => {
       {/* Toggle pill */}
       <div className="relative w-12 h-6 rounded-full bg-muted overflow-hidden">
         <motion.div
-          className="absolute top-1 w-4 h-4 rounded-full"
+          className="absolute top-1 w-4 h-4 rounded-full overflow-hidden"
           animate={{
             left: isChaos ? "28px" : "4px",
-            backgroundColor: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)",
             boxShadow: isChaos
               ? "0 0 12px hsl(18 100% 58% / 0.6)"
               : "0 0 8px hsl(199 90% 63% / 0.4)",
           }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        />
+        >
+          {/* Paranoia pattern - chaotic concentric rings */}
+          <div
+            className="w-full h-full relative"
+            style={{
+              background: isChaos
+                ? `conic-gradient(
+                    hsl(18 100% 58%), hsl(275 80% 74%), hsl(0 90% 50%), 
+                    hsl(40 100% 55%), hsl(18 100% 58%)
+                  )`
+                : "hsl(199 90% 63%)",
+            }}
+          >
+            {isChaos && (
+              <>
+                <div className="absolute inset-[2px] rounded-full" style={{ background: "hsl(230 60% 6%)" }} />
+                <div className="absolute inset-[3px] rounded-full" style={{
+                  background: "conic-gradient(hsl(0 90% 50%), hsl(275 80% 74%), hsl(18 100% 58%), hsl(0 90% 50%))",
+                }} />
+                <div className="absolute inset-[5px] rounded-full" style={{ background: "hsl(230 60% 6%)" }} />
+                <div className="absolute inset-[6px] rounded-full" style={{
+                  background: "radial-gradient(circle, hsl(18 100% 58%), hsl(0 80% 40%))",
+                }} />
+              </>
+            )}
+          </div>
+        </motion.div>
       </div>
 
       {/* Chaos label */}
