@@ -171,24 +171,51 @@ const HeroSection = () => {
             {chaosPhase === "vanity" && (
               <motion.div
                 className="absolute inset-0 flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.3 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 2, ease: "easeOut" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
               >
-                <motion.h1
-                  className="text-6xl md:text-8xl font-black tracking-[0.2em] text-glow-orange"
-                  style={{ color: "hsl(18 100% 58%)" }}
-                  animate={{
-                    textShadow: [
-                      "0 0 20px hsl(18 100% 58% / 0.5), 0 0 60px hsl(275 80% 74% / 0.3)",
-                      "0 0 40px hsl(18 100% 58% / 0.8), 0 0 80px hsl(275 80% 74% / 0.5)",
-                      "0 0 20px hsl(18 100% 58% / 0.5), 0 0 60px hsl(275 80% 74% / 0.3)",
-                    ],
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  VANITY
-                </motion.h1>
+                <div className="flex gap-1 md:gap-2">
+                  {[
+                    { char: "V", color: "hsl(18 100% 58%)", rotate: -12, font: "serif" },
+                    { char: "A", color: "hsl(275 80% 74%)", rotate: 8, font: "monospace" },
+                    { char: "N", color: "hsl(0 90% 55%)", rotate: -5, font: "cursive" },
+                    { char: "I", color: "hsl(40 100% 55%)", rotate: 15, font: "sans-serif" },
+                    { char: "T", color: "hsl(199 90% 63%)", rotate: -10, font: "fantasy" },
+                    { char: "Y", color: "hsl(330 80% 60%)", rotate: 7, font: "serif" },
+                  ].map((item, i) => (
+                    <motion.span
+                      key={i}
+                      className="text-3xl md:text-4xl font-black"
+                      style={{
+                        color: item.color,
+                        fontFamily: item.font,
+                        display: "inline-block",
+                      }}
+                      initial={{ opacity: 0, y: 60, scale: 0, rotate: item.rotate * 3 }}
+                      animate={{
+                        opacity: 1,
+                        y: [0, -5, 3, 0],
+                        scale: 1,
+                        rotate: item.rotate,
+                        textShadow: [
+                          `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
+                          `0 0 20px ${item.color.replace(")", " / 0.7)")}, 0 0 50px ${item.color.replace(")", " / 0.4)")}`,
+                          `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
+                        ],
+                      }}
+                      transition={{
+                        opacity: { duration: 0.6, delay: i * 0.25 },
+                        y: { duration: 3, repeat: Infinity, delay: i * 0.3 },
+                        scale: { duration: 0.8, delay: i * 0.25, type: "spring", stiffness: 200 },
+                        rotate: { duration: 0.8, delay: i * 0.25 },
+                        textShadow: { duration: 2.5, repeat: Infinity, delay: i * 0.2 },
+                      }}
+                    >
+                      {item.char}
+                    </motion.span>
+                  ))}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
