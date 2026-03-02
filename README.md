@@ -17,4 +17,5 @@
 ♠️画面右上の理性または解放モデルをお選び下さい
 画面の好きな場所をタップし感じてください
 アプリ体験↓
-https://kaleidoscope-vanity.lovable.app
+https://kaleidoscope-vanity.lovable.app<img width="632" height="406" alt="mazyo3" src="https://github.com/user-attachments/assets/2c32fc8f-d350-41e2-a27c-5fa22ce8114d" />
+
