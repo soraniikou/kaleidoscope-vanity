@@ -350,6 +350,13 @@ const HeroSection = () => {
             transition={{ duration: 10, repeat: Infinity }}
           />
         </div>
+        <motion.p
+          className="mt-4 text-sm md:text-base text-muted-foreground/70 tracking-widest select-none"
+          animate={{ opacity: [0.4, 0.8, 0.4] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          タップする
+        </motion.p>
         </>
       )}
     </section>
