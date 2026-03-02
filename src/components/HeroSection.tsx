@@ -175,7 +175,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
               >
-                <div className="flex gap-1 md:gap-2">
+                <div className="flex gap-6 md:gap-10">
                   {[
                     { char: "V", color: "hsl(18 100% 58%)", rotate: -12, font: "serif" },
                     { char: "A", color: "hsl(275 80% 74%)", rotate: 8, font: "monospace" },
@@ -192,24 +192,26 @@ const HeroSection = () => {
                         fontFamily: item.font,
                         display: "inline-block",
                       }}
-                      initial={{ opacity: 0, y: 60, scale: 0, rotate: item.rotate * 3 }}
+                      initial={{ opacity: 0, y: 80, scale: 0, rotate: item.rotate * 4 }}
                       animate={{
                         opacity: 1,
-                        y: [0, -5, 3, 0],
-                        scale: 1,
-                        rotate: item.rotate,
+                        y: [0, -15, 10, -8, 5, 0],
+                        x: [0, (i % 2 ? 8 : -8), (i % 2 ? -5 : 5), 0],
+                        scale: [1, 1.2, 0.9, 1.15, 1],
+                        rotate: [item.rotate, item.rotate + 10, item.rotate - 8, item.rotate + 5, item.rotate],
                         textShadow: [
                           `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
-                          `0 0 20px ${item.color.replace(")", " / 0.7)")}, 0 0 50px ${item.color.replace(")", " / 0.4)")}`,
+                          `0 0 25px ${item.color.replace(")", " / 0.8)")}, 0 0 60px ${item.color.replace(")", " / 0.5)")}`,
                           `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
                         ],
                       }}
                       transition={{
                         opacity: { duration: 0.6, delay: i * 0.25 },
-                        y: { duration: 3, repeat: Infinity, delay: i * 0.3 },
-                        scale: { duration: 0.8, delay: i * 0.25, type: "spring", stiffness: 200 },
-                        rotate: { duration: 0.8, delay: i * 0.25 },
-                        textShadow: { duration: 2.5, repeat: Infinity, delay: i * 0.2 },
+                        y: { duration: 2.5 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
+                        x: { duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 },
+                        scale: { duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
+                        rotate: { duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 },
+                        textShadow: { duration: 2, repeat: Infinity, delay: i * 0.2 },
                       }}
                     >
                       {item.char}
