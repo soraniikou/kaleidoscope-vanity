@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMode } from "@/contexts/ModeContext";
 import ModeToggle from "./ModeToggle";
+import FlameExplosion from "./FlameExplosion";
 
 const HeroSection = () => {
   const { mode } = useMode();
@@ -17,19 +18,31 @@ const HeroSection = () => {
     const t2 = setTimeout(() => setChaosPhase("vanity"), 11000);
     const t3 = setTimeout(() => setChaosPhase("decay"), 16000);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [isChaos]);
 
+  // Random scatter positions for each shard (stable per mount)
+  const [scatterPositions] = useState(() =>
+    [...Array(18)].map(() => ({
+      x: (Math.random() - 0.5) * (typeof window !== "undefined" ? window.innerWidth * 0.8 : 800),
+      y: (Math.random() - 0.5) * (typeof window !== "undefined" ? window.innerHeight * 0.8 : 600),
+      rot: Math.random() * 360,
+      scale: 0.3 + Math.random() * 0.7,
+    }))
+  );
+
   return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
       {/* Mode toggle at top */}
-      <div className="absolute top-8 right-8">
+      <div className="absolute top-8 right-8 z-40">
         <ModeToggle />
       </div>
 
+      {/* Flame explosion on touch - chaos mode only */}
+      {isChaos && <FlameExplosion />}
+
       {isChaos ? (
         <div className="relative w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] mb-8">
-          {/* Outer explosive shards */}
+          {/* Outer explosive shards - flame colored, scatter wildly */}
           {[...Array(12)].map((_, i) => (
             <motion.div
               key={`outer-${i}`}
@@ -44,13 +57,15 @@ const HeroSection = () => {
               animate={{
                 rotate: 360,
                 x: chaosPhase === "scatter" || chaosPhase === "vanity"
-                  ? (i % 2 ? 1 : -1) * (150 + i * 30)
+                  ? scatterPositions[i]?.x ?? 0
                   : 0,
                 y: chaosPhase === "scatter" || chaosPhase === "vanity"
-                  ? (i % 3 ? 1 : -1) * (120 + i * 25)
+                  ? scatterPositions[i]?.y ?? 0
                   : 0,
                 opacity: chaosPhase === "vanity" ? 0 : 1,
-                scale: chaosPhase === "scatter" ? 0.6 : chaosPhase === "vanity" ? 0.2 : 1,
+                scale: chaosPhase === "scatter"
+                  ? scatterPositions[i]?.scale ?? 0.5
+                  : chaosPhase === "vanity" ? 0.1 : 1,
               }}
               transition={{
                 rotate: {
@@ -59,10 +74,10 @@ const HeroSection = () => {
                   ease: "linear",
                   direction: i % 2 === 0 ? "normal" : "reverse",
                 },
-                x: { duration: 3, ease: "easeInOut" },
-                y: { duration: 3, ease: "easeInOut" },
+                x: { duration: 2, ease: [0.2, 0.8, 0.3, 1] },
+                y: { duration: 2, ease: [0.2, 0.8, 0.3, 1] },
                 opacity: { duration: 2, ease: "easeOut" },
-                scale: { duration: 3, ease: "easeInOut" },
+                scale: { duration: 2, ease: "easeInOut" },
               }}
             >
               <motion.div
@@ -77,9 +92,9 @@ const HeroSection = () => {
                       ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
                       : "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
                   background: `linear-gradient(${i * 30}deg, 
-                    hsl(${(18 + i * 30) % 360} ${70 + (i % 3) * 5}% ${35 + (i % 4) * 6}% / ${0.7 - (i % 6) * 0.05}), 
-                    hsl(${(275 + i * 25) % 360} 65% 42% / ${0.5 - (i % 4) * 0.05}),
-                    transparent)`,
+                    hsl(${[0, 15, 25, 35, 8, 20, 5, 30, 10, 40, 18, 28][i]} 100% ${50 + (i % 3) * 5}% / ${0.8 - (i % 4) * 0.05}), 
+                    hsl(${[30, 10, 0, 20, 40, 5, 25, 15, 35, 0, 18, 8][i]} 85% ${35 + (i % 4) * 4}% / ${0.6}),
+                    hsl(0 70% 20% / 0.3))`,
                 }}
                 animate={{
                   scale: chaosPhase === "kaleidoscope" ? [1, 2, 0.6, 1.8, 1] : 1,
@@ -94,7 +109,7 @@ const HeroSection = () => {
               />
             </motion.div>
           ))}
-          {/* Inner kaleidoscope layers */}
+          {/* Inner kaleidoscope layers - flame colors */}
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={`inner-${i}`}
@@ -102,13 +117,15 @@ const HeroSection = () => {
               animate={{
                 rotate: 360,
                 x: chaosPhase === "scatter" || chaosPhase === "vanity"
-                  ? (i % 2 ? -1 : 1) * (100 + i * 40)
+                  ? scatterPositions[12 + i]?.x ?? 0
                   : 0,
                 y: chaosPhase === "scatter" || chaosPhase === "vanity"
-                  ? (i % 2 ? 1 : -1) * (80 + i * 35)
+                  ? scatterPositions[12 + i]?.y ?? 0
                   : 0,
                 opacity: chaosPhase === "vanity" ? 0 : 1,
-                scale: chaosPhase === "scatter" ? 0.5 : chaosPhase === "vanity" ? 0.1 : 1,
+                scale: chaosPhase === "scatter"
+                  ? scatterPositions[12 + i]?.scale ?? 0.5
+                  : chaosPhase === "vanity" ? 0.1 : 1,
               }}
               transition={{
                 rotate: {
@@ -117,10 +134,10 @@ const HeroSection = () => {
                   ease: "linear",
                   direction: i % 2 === 0 ? "normal" : "reverse",
                 },
-                x: { duration: 3.5, ease: "easeInOut" },
-                y: { duration: 3.5, ease: "easeInOut" },
+                x: { duration: 2.5, ease: [0.2, 0.8, 0.3, 1] },
+                y: { duration: 2.5, ease: [0.2, 0.8, 0.3, 1] },
                 opacity: { duration: 2, ease: "easeOut" },
-                scale: { duration: 3, ease: "easeInOut" },
+                scale: { duration: 2, ease: "easeInOut" },
               }}
             >
               <motion.div
@@ -137,9 +154,9 @@ const HeroSection = () => {
                       ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
                       : "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
                   background: `linear-gradient(${i * 60}deg, 
-                    hsl(${18 + i * 40} ${75}% ${38 + i * 4}% / ${0.8 - i * 0.08}), 
-                    hsl(${275 - i * 30} 70% 45% / ${0.6 - i * 0.06}),
-                    hsl(${0 + i * 20} 75% 35% / ${0.3}))`,
+                    hsl(${[5, 20, 35, 10, 25, 0][i]} 95% ${45 + i * 3}% / ${0.8 - i * 0.08}), 
+                    hsl(${[30, 15, 0, 40, 8, 20][i]} 80% ${35 + i * 3}% / ${0.6 - i * 0.06}),
+                    hsl(0 70% 25% / 0.3))`,
                 }}
                 animate={{
                   scale: chaosPhase === "kaleidoscope" ? [1, 1.8, 0.7, 1.5, 1] : 1,
@@ -154,12 +171,12 @@ const HeroSection = () => {
               />
             </motion.div>
           ))}
-          {/* Central explosive glow */}
+          {/* Central flame glow */}
           <motion.div
             className="absolute inset-[15%] rounded-full blur-3xl"
             style={{
               background:
-                "radial-gradient(circle, hsl(18 90% 40% / 0.5), hsl(275 65% 50% / 0.3), hsl(0 75% 35% / 0.2), transparent)",
+                "radial-gradient(circle, hsl(18 100% 50% / 0.6), hsl(0 90% 40% / 0.4), hsl(30 80% 30% / 0.2), transparent)",
             }}
             animate={{
               scale: chaosPhase === "vanity" ? 0 : [1, 1.5, 0.9, 1.3, 1],
@@ -227,6 +244,7 @@ const HeroSection = () => {
           </AnimatePresence>
         </div>
       ) : (
+        /* ===== ORDER MODE - Blue tinted, slower rotation ===== */
         <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
           {[...Array(6)].map((_, i) => (
             <motion.div
@@ -234,7 +252,7 @@ const HeroSection = () => {
               className="absolute inset-0"
               animate={{ rotate: 360 }}
               transition={{
-                duration: 14 + i * 3,
+                duration: (14 + i * 3) * 2,
                 repeat: Infinity,
                 ease: "linear",
                 direction: i % 2 === 0 ? "normal" : "reverse",
@@ -254,16 +272,16 @@ const HeroSection = () => {
                       ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
                       : "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
                   background: `linear-gradient(${i * 60}deg, 
-                    hsl(${199 + i * 10} ${70 + i * 4}% ${60 + i * 5}% / ${0.45 - i * 0.05}), 
-                    hsl(${210 + i * 15} 40% 85% / ${0.3 - i * 0.03}),
-                    transparent)`,
+                    hsl(${210 + i * 8} ${75 + i * 3}% ${55 + i * 4}% / ${0.5 - i * 0.04}), 
+                    hsl(${220 + i * 10} ${60 + i * 5}% ${70 + i * 3}% / ${0.35 - i * 0.03}),
+                    hsl(${200 + i * 5} 50% 80% / 0.15))`,
                 }}
                 animate={{
                   scale: [1, 1.06, 0.97, 1],
                   rotate: [0, 12, -8, 0],
                 }}
                 transition={{
-                  duration: 6 + i * 1.5,
+                  duration: (6 + i * 1.5) * 2,
                   repeat: Infinity,
                   ease: "easeInOut",
                   delay: i * 0.4,
@@ -271,18 +289,18 @@ const HeroSection = () => {
               />
             </motion.div>
           ))}
-          {/* Central glow */}
+          {/* Central blue glow */}
           <motion.div
             className="absolute inset-0 rounded-full blur-2xl"
             style={{
               background:
-                "radial-gradient(circle, hsl(199 90% 63% / 0.2), hsl(210 40% 85% / 0.15), transparent)",
+                "radial-gradient(circle, hsl(210 80% 60% / 0.25), hsl(220 60% 70% / 0.18), hsl(200 50% 80% / 0.1), transparent)",
             }}
             animate={{
               scale: [1, 1.15, 1],
               opacity: [0.4, 0.6, 0.4],
             }}
-            transition={{ duration: 5, repeat: Infinity }}
+            transition={{ duration: 10, repeat: Infinity }}
           />
         </div>
       )}
