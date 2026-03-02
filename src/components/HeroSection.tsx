@@ -6,7 +6,7 @@ import ModeToggle from "./ModeToggle";
 const HeroSection = () => {
   const { mode } = useMode();
   const isChaos = mode === "chaos";
-  const [chaosPhase, setChaosPhase] = useState<"kaleidoscope" | "scatter" | "vanity">("kaleidoscope");
+  const [chaosPhase, setChaosPhase] = useState<"kaleidoscope" | "scatter" | "vanity" | "decay">("kaleidoscope");
 
   useEffect(() => {
     if (!isChaos) {
@@ -15,6 +15,8 @@ const HeroSection = () => {
     }
     const t1 = setTimeout(() => setChaosPhase("scatter"), 7000);
     const t2 = setTimeout(() => setChaosPhase("vanity"), 11000);
+    const t3 = setTimeout(() => setChaosPhase("decay"), 16000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [isChaos]);
 
@@ -168,7 +170,7 @@ const HeroSection = () => {
 
           {/* VANITY text emerging */}
           <AnimatePresence>
-            {chaosPhase === "vanity" && (
+            {(chaosPhase === "vanity" || chaosPhase === "decay") && (
               <motion.div
                 className="absolute inset-0 flex items-center justify-center"
                 initial={{ opacity: 0 }}
@@ -186,20 +188,35 @@ const HeroSection = () => {
                   ].map((item, i) => (
                     <motion.span
                       key={i}
-                      className="text-xl md:text-2xl font-black blur-[0.8px]"
+                      className="text-xl md:text-2xl font-black"
                       style={{
                         color: item.color,
                         fontFamily: item.font,
                         display: "inline-block",
                         textShadow: `0 0 15px ${item.color.replace(")", " / 0.5)")}, 0 0 40px ${item.color.replace(")", " / 0.25)")}`,
                       }}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.6,
-                        delay: i * 0.3,
-                        ease: "easeOut",
+                      initial={chaosPhase === "vanity" ? { opacity: 0, y: 30 } : false}
+                      animate={{
+                        opacity: chaosPhase === "decay" ? 0 : 1,
+                        y: chaosPhase === "decay" ? 40 + i * 15 : 0,
+                        filter: chaosPhase === "decay"
+                          ? `blur(${8 + i * 3}px)`
+                          : "blur(0.8px)",
+                        scale: chaosPhase === "decay" ? 1.3 + i * 0.1 : 1,
+                        rotate: chaosPhase === "decay" ? (i % 2 ? 20 : -15) : 0,
                       }}
+                      transition={chaosPhase === "decay"
+                        ? {
+                            duration: 3,
+                            delay: i * 0.4,
+                            ease: "easeIn",
+                          }
+                        : {
+                            duration: 0.6,
+                            delay: i * 0.3,
+                            ease: "easeOut",
+                          }
+                      }
                     >
                       {item.char}
                     </motion.span>
