@@ -48,7 +48,7 @@ const IntegrationSection = () => {
           }`}
           style={{ color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)" }}
         >
-          統合（パッキング）
+          統合
         </motion.h2>
         <p className="text-muted-foreground text-center mb-16">
           バラバラだったものを、一つの美しい結晶に
@@ -148,7 +148,7 @@ const IntegrationSection = () => {
                 whileTap={{ scale: 0.95 }}
                 exit={{ scale: 0, opacity: 0 }}
               >
-                統合する（パッキング）
+                統合する
               </motion.button>
             ) : (
               <motion.div
