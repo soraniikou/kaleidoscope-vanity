@@ -51,7 +51,7 @@ const FlameExplosion = () => {
       size: wave === 0 ? 20 + Math.random() * 35 : wave === 1 ? 12 + Math.random() * 25 : 8 + Math.random() * 16,
       angle: wave === 1 ? 240 + Math.random() * 60 : Math.random() * 360,
       distance: wave === 0 ? 50 + Math.random() * 160 : wave === 1 ? 100 + Math.random() * 220 : 30 + Math.random() * 120,
-      delay: Math.random() * (wave === 0 ? 0.15 : wave === 1 ? 0.3 : 0.5),
+      delay: Math.random() * (wave === 0 ? 0.15 : wave === 1 ? 0.3 : 0.8),
       wave,
       flameVariant: Math.floor(Math.random() * FLAME_CLIPS.length),
     });
@@ -78,7 +78,7 @@ const FlameExplosion = () => {
 
     const t3 = window.setTimeout(() => {
       setParticles((prev) => prev.filter((p) => !allParticles.includes(p)));
-    }, 4500);
+    }, 6500);
 
     timerRef.current.push(t1, t2, t3);
   }, []);
@@ -92,7 +92,7 @@ const FlameExplosion = () => {
       <AnimatePresence>
         {particles.map((p) => {
           const rad = (p.angle * Math.PI) / 180;
-          const waveDuration = p.wave === 0 ? 2.2 : p.wave === 1 ? 2.8 : 1.8;
+          const waveDuration = p.wave === 0 ? 3.2 : p.wave === 1 ? 4.0 : 3.0;
           return (
             <motion.div
               key={p.id}
