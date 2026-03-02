@@ -10,22 +10,20 @@ interface FlameParticle {
   angle: number;
   distance: number;
   delay: number;
-  wave: number; // 0=initial burst, 1=rising embers, 2=sparks
+  wave: number;
+  flameVariant: number;
 }
 
 let particleId = 0;
 
-const FLAME_COLORS = [
-  // reds
-  0, 5, 350, 355,
-  // oranges
-  18, 25, 30,
-  // yellows
-  45, 55,
-  // violet/magenta sparks
-  275, 290, 310, 330,
-  // blue-white hot core
-  200, 210,
+const FLAME_COLORS = [0, 5, 350, 355, 18, 25, 30, 45, 55, 275, 290, 310, 330, 200, 210];
+
+// Flame-shaped clip paths (irregular, flickering flame silhouettes)
+const FLAME_CLIPS = [
+  "polygon(50% 0%, 35% 12%, 20% 30%, 28% 50%, 15% 68%, 25% 82%, 38% 100%, 50% 85%, 62% 100%, 75% 82%, 85% 68%, 72% 50%, 80% 30%, 65% 12%)",
+  "polygon(50% 0%, 38% 8%, 22% 25%, 30% 45%, 12% 65%, 28% 80%, 42% 100%, 55% 88%, 68% 100%, 78% 78%, 90% 60%, 75% 42%, 82% 22%, 62% 10%)",
+  "polygon(50% 0%, 32% 15%, 18% 35%, 25% 55%, 10% 75%, 30% 90%, 45% 100%, 55% 92%, 65% 100%, 80% 85%, 92% 70%, 78% 48%, 85% 28%, 68% 10%)",
+  "polygon(50% 0%, 40% 10%, 25% 28%, 32% 48%, 18% 70%, 32% 88%, 48% 100%, 58% 90%, 70% 100%, 82% 82%, 88% 62%, 72% 45%, 78% 25%, 60% 8%)",
 ];
 
 const FlameExplosion = () => {
@@ -45,43 +43,26 @@ const FlameExplosion = () => {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
-    // Wave 0: initial burst (instant)
-    const burst = Array.from({ length: 24 }, (_, i) => ({
+    const makeParticle = (wave: number, offsetX = 0, offsetY = 0): FlameParticle => ({
       id: particleId++,
-      x, y,
+      x: x + offsetX,
+      y: y + offsetY,
       hue: FLAME_COLORS[Math.floor(Math.random() * FLAME_COLORS.length)],
-      size: 8 + Math.random() * 20,
-      angle: (i * 15) + Math.random() * 10,
-      distance: 60 + Math.random() * 180,
-      delay: Math.random() * 0.2,
-      wave: 0,
-    }));
+      size: wave === 0 ? 20 + Math.random() * 35 : wave === 1 ? 12 + Math.random() * 25 : 8 + Math.random() * 16,
+      angle: wave === 1 ? 240 + Math.random() * 60 : Math.random() * 360,
+      distance: wave === 0 ? 50 + Math.random() * 160 : wave === 1 ? 100 + Math.random() * 220 : 30 + Math.random() * 120,
+      delay: Math.random() * (wave === 0 ? 0.15 : wave === 1 ? 0.3 : 0.5),
+      wave,
+      flameVariant: Math.floor(Math.random() * FLAME_CLIPS.length),
+    });
 
-    // Wave 1: rising embers (0.5s later)
-    const embers = Array.from({ length: 16 }, () => ({
-      id: particleId++,
-      x: x + (Math.random() - 0.5) * 60,
-      y: y + (Math.random() - 0.5) * 40,
-      hue: FLAME_COLORS[Math.floor(Math.random() * FLAME_COLORS.length)],
-      size: 4 + Math.random() * 12,
-      angle: 250 + Math.random() * 40, // mostly upward
-      distance: 120 + Math.random() * 250,
-      delay: Math.random() * 0.4,
-      wave: 1,
-    }));
-
-    // Wave 2: lingering sparks (1.2s later)
-    const sparks = Array.from({ length: 12 }, () => ({
-      id: particleId++,
-      x: x + (Math.random() - 0.5) * 80,
-      y: y + (Math.random() - 0.5) * 60,
-      hue: [275, 290, 45, 55, 200, 350][Math.floor(Math.random() * 6)],
-      size: 3 + Math.random() * 8,
-      angle: Math.random() * 360,
-      distance: 40 + Math.random() * 150,
-      delay: Math.random() * 0.6,
-      wave: 2,
-    }));
+    const burst = Array.from({ length: 20 }, () => makeParticle(0));
+    const embers = Array.from({ length: 14 }, () =>
+      makeParticle(1, (Math.random() - 0.5) * 50, (Math.random() - 0.5) * 30)
+    );
+    const sparks = Array.from({ length: 10 }, () =>
+      makeParticle(2, (Math.random() - 0.5) * 70, (Math.random() - 0.5) * 50)
+    );
 
     const allParticles = [...burst, ...embers, ...sparks];
 
@@ -89,15 +70,15 @@ const FlameExplosion = () => {
 
     const t1 = window.setTimeout(() => {
       setParticles((prev) => [...prev, ...embers]);
-    }, 500);
+    }, 400);
 
     const t2 = window.setTimeout(() => {
       setParticles((prev) => [...prev, ...sparks]);
-    }, 1200);
+    }, 1000);
 
     const t3 = window.setTimeout(() => {
       setParticles((prev) => prev.filter((p) => !allParticles.includes(p)));
-    }, 4000);
+    }, 4500);
 
     timerRef.current.push(t1, t2, t3);
   }, []);
@@ -111,41 +92,43 @@ const FlameExplosion = () => {
       <AnimatePresence>
         {particles.map((p) => {
           const rad = (p.angle * Math.PI) / 180;
-          const waveDuration = p.wave === 0 ? 1.8 : p.wave === 1 ? 2.5 : 1.5;
-          const totalDuration = waveDuration + p.delay;
+          const waveDuration = p.wave === 0 ? 2.2 : p.wave === 1 ? 2.8 : 1.8;
           return (
             <motion.div
               key={p.id}
-              className="absolute rounded-full pointer-events-none"
+              className="absolute pointer-events-none"
               style={{
-                left: p.x,
-                top: p.y,
+                left: p.x - p.size / 2,
+                top: p.y - p.size / 2,
                 width: p.size,
-                height: p.size,
-                background: `radial-gradient(circle, 
-                  hsl(${p.hue} 100% 70%), 
-                  hsl(${p.hue} 90% 50%), 
-                  hsl(${(p.hue + 20) % 360} 80% 30%))`,
-                boxShadow: `0 0 ${p.size * 1.5}px hsl(${p.hue} 100% 55% / 0.9), 
-                             0 0 ${p.size * 3}px hsl(${p.hue} 90% 45% / 0.5),
-                             0 0 ${p.size * 5}px hsl(${p.hue} 80% 35% / 0.2)`,
+                height: p.size * 1.4,
+                clipPath: FLAME_CLIPS[p.flameVariant],
+                background: `linear-gradient(0deg, 
+                  hsl(${p.hue} 100% 70%) 0%, 
+                  hsl(${(p.hue + 15) % 360} 95% 55%) 40%, 
+                  hsl(${(p.hue + 30) % 360} 85% 40%) 70%,
+                  hsl(${(p.hue + 40) % 360} 70% 25%) 100%)`,
+                filter: `blur(${p.wave === 2 ? 1 : 0.5}px)`,
+                boxShadow: `0 0 ${p.size}px hsl(${p.hue} 100% 55% / 0.8), 
+                             0 0 ${p.size * 2}px hsl(${p.hue} 90% 45% / 0.4)`,
               }}
-              initial={{ scale: 0, opacity: 1, x: 0, y: 0 }}
+              initial={{ scale: 0, opacity: 1, x: 0, y: 0, rotate: Math.random() * 30 - 15 }}
               animate={{
                 scale: p.wave === 0
-                  ? [0, 2, 1.2, 0.6, 0]
+                  ? [0, 1.8, 1.2, 0.6, 0]
                   : p.wave === 1
-                  ? [0, 1.5, 1, 0.3, 0]
-                  : [0, 1, 0.5, 0],
+                  ? [0, 1.4, 0.8, 0.3, 0]
+                  : [0, 1, 0.4, 0],
                 opacity: p.wave === 0
-                  ? [1, 0.95, 0.7, 0.3, 0]
-                  : [1, 0.8, 0.4, 0],
+                  ? [1, 0.95, 0.6, 0.2, 0]
+                  : [1, 0.7, 0.3, 0],
                 x: Math.cos(rad) * p.distance,
-                y: Math.sin(rad) * p.distance + (p.wave === 1 ? -80 : 20),
+                y: Math.sin(rad) * p.distance + (p.wave === 1 ? -60 : 15),
+                rotate: [Math.random() * 30 - 15, Math.random() * 60 - 30],
               }}
               exit={{ opacity: 0 }}
               transition={{
-                duration: totalDuration,
+                duration: waveDuration,
                 delay: p.delay,
                 ease: [0.15, 0, 0.25, 1],
               }}
