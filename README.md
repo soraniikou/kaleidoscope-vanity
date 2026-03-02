@@ -9,4 +9,4 @@
 画面右上の理性または解放モデルをお選び
 
 アプリ体験↓
-kaleidoscope-vanity.lovable.app
+https://kaleidoscope-vanity.lovable.app
