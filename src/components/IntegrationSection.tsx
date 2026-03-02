@@ -12,13 +12,13 @@ const INTEGRATION_STEPS = [
   {
     id: 2,
     title: "解放する",
-    description: "内に溜めず、安全に外へ出す。言語化し、可視化する",
+    description: "内に溜めず、安全に外へ出す",
     icon: "◆",
   },
   {
     id: 3,
     title: "統合する",
-    description: "「それも自分だ」と受け入れ、エネルギーとして取り込む",
+    description: "「それも自分だ」と受け入れる",
     icon: "✦",
   },
 ];
@@ -42,17 +42,7 @@ const IntegrationSection = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2
-          className={`text-3xl md:text-4xl font-black text-center mb-3 mode-transition ${
-            isChaos ? "text-glow-orange" : ""
-          }`}
-          style={{ color: "hsl(275 80% 60%)" }}
-        >
-          統合
-        </motion.h2>
-        <p className="text-muted-foreground text-center mb-16">
-          バラバラだったものを、一つに
-        </p>
+        <div className="mb-16" />
 
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-6 mb-16">
@@ -144,7 +134,7 @@ const IntegrationSection = () => {
                 whileTap={{ scale: 0.95 }}
                 exit={{ scale: 0, opacity: 0 }}
               >
-                統合する
+                ♤
               </motion.button>
             ) : (
               <motion.div
