@@ -26,7 +26,8 @@ const HeroSection = () => {
       x: (Math.random() - 0.5) * (typeof window !== "undefined" ? window.innerWidth * 0.8 : 800),
       y: (Math.random() - 0.5) * (typeof window !== "undefined" ? window.innerHeight * 0.8 : 600),
       rot: Math.random() * 360,
-      scale: 0.3 + Math.random() * 0.7,
+      scale: 0.15 + Math.random() * 1.4,
+      isWhite: Math.random() < 0.3,
     }))
   );
 
@@ -48,10 +49,10 @@ const HeroSection = () => {
               key={`outer-${i}`}
               className="absolute"
               style={{
-                width: "40%",
-                height: "40%",
-                top: "30%",
-                left: "30%",
+                width: `${20 + (i * 7) % 30}%`,
+                height: `${20 + ((i * 11) % 35)}%`,
+                top: `${25 + (i % 5) * 5}%`,
+                left: `${25 + (i % 4) * 5}%`,
                 transformOrigin: "center center",
               }}
               animate={{
@@ -91,10 +92,15 @@ const HeroSection = () => {
                       : i % 4 === 2
                       ? "polygon(50% 0%, 40% 6%, 32% 15%, 20% 30%, 10% 48%, 16% 65%, 24% 80%, 40% 100%, 52% 78%, 60% 100%, 76% 82%, 88% 65%, 92% 48%, 78% 28%, 68% 14%, 58% 5%)"
                       : "polygon(50% 0%, 44% 4%, 35% 12%, 24% 28%, 14% 45%, 10% 60%, 18% 78%, 35% 95%, 50% 80%, 65% 95%, 82% 78%, 90% 60%, 86% 45%, 76% 28%, 65% 12%, 56% 4%)",
-                  background: `linear-gradient(${i * 30}deg, 
-                    hsl(${[0, 275, 25, 330, 200, 20, 290, 45, 350, 210, 18, 310][i]} ${90 + (i % 3) * 5}% ${48 + (i % 4) * 5}% / ${0.8 - (i % 4) * 0.05}), 
-                    hsl(${[30, 310, 0, 200, 40, 275, 350, 15, 290, 45, 330, 8][i]} 80% ${35 + (i % 4) * 4}% / ${0.6}),
-                    hsl(${[0, 260, 20, 300, 190, 10, 280, 40, 340, 200, 15, 295][i]} 60% 22% / 0.3))`,
+                  background: scatterPositions[i]?.isWhite
+                    ? `linear-gradient(${i * 30}deg, 
+                        hsl(0 0% 100% / 0.9), 
+                        hsl(40 20% 90% / 0.7),
+                        hsl(30 15% 75% / 0.4))`
+                    : `linear-gradient(${i * 30}deg, 
+                        hsl(${[0, 275, 25, 330, 200, 20, 290, 45, 350, 210, 18, 310][i]} ${90 + (i % 3) * 5}% ${48 + (i % 4) * 5}% / ${0.8 - (i % 4) * 0.05}), 
+                        hsl(${[30, 310, 0, 200, 40, 275, 350, 15, 290, 45, 330, 8][i]} 80% ${35 + (i % 4) * 4}% / ${0.6}),
+                        hsl(${[0, 260, 20, 300, 190, 10, 280, 40, 340, 200, 15, 295][i]} 60% 22% / 0.3))`,
                 }}
                 animate={{
                   scale: chaosPhase === "kaleidoscope" ? [1, 2, 0.6, 1.8, 1] : 1,
