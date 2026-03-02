@@ -144,13 +144,40 @@ const IntegrationSection = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
               >
-                {/* Spade symbol */}
+                {/* Spade with spear */}
                 <motion.div
                   className="w-32 h-32 mx-auto mb-6 relative flex items-center justify-center"
                   animate={{ rotate: [0, 360] }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 >
                   <span className="text-7xl" style={{ color: "hsl(330 80% 65%)" }}>♤</span>
+                  {/* Spear piercing through */}
+                  <div
+                    className="absolute"
+                    style={{
+                      width: "4px",
+                      height: "140%",
+                      background: "linear-gradient(180deg, transparent 0%, hsl(210 80% 70%) 20%, hsl(0 0% 90%) 50%, hsl(210 80% 70%) 80%, transparent 100%)",
+                      top: "-20%",
+                      left: "50%",
+                      transform: "translateX(-50%) rotate(15deg)",
+                    }}
+                  />
+                  {/* Spear tip (top) */}
+                  <div
+                    className="absolute"
+                    style={{
+                      width: "0",
+                      height: "0",
+                      borderLeft: "8px solid transparent",
+                      borderRight: "8px solid transparent",
+                      borderBottom: "16px solid hsl(210 80% 70%)",
+                      top: "-24%",
+                      left: "50%",
+                      transform: "translateX(-50%) rotate(15deg)",
+                    }}
+                  />
+                  {/* Glow */}
                   <motion.div
                     className="absolute -inset-4 blur-2xl -z-10"
                     style={{
