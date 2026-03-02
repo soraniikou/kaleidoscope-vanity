@@ -284,14 +284,6 @@ const HeroSection = () => {
             }}
             transition={{ duration: 5, repeat: Infinity }}
           />
-          {/* Subtitle */}
-          <motion.p
-            className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm text-muted-foreground tracking-widest"
-            animate={{ opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          >
-            カオスからロゴスへ。思考を軽くする統合の旅
-          </motion.p>
         </div>
       )}
     </section>
