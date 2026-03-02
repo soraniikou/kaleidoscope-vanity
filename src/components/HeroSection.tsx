@@ -198,18 +198,18 @@ const HeroSection = () => {
                       initial={chaosPhase === "vanity" ? { opacity: 0, y: 30 } : false}
                       animate={{
                         opacity: chaosPhase === "decay" ? 0 : 1,
-                        y: chaosPhase === "decay" ? 40 + i * 15 : 0,
+                        y: chaosPhase === "decay" ? 300 + i * 60 : 0,
                         filter: chaosPhase === "decay"
-                          ? `blur(${8 + i * 3}px)`
+                          ? `blur(${6 + i * 2}px)`
                           : "blur(0.8px)",
-                        scale: chaosPhase === "decay" ? 1.3 + i * 0.1 : 1,
-                        rotate: chaosPhase === "decay" ? (i % 2 ? 20 : -15) : 0,
+                        scaleY: chaosPhase === "decay" ? 2.5 : 1,
+                        scaleX: chaosPhase === "decay" ? 0.3 : 1,
                       }}
                       transition={chaosPhase === "decay"
                         ? {
-                            duration: 3,
-                            delay: i * 0.4,
-                            ease: "easeIn",
+                            duration: 2.5,
+                            delay: i * 0.3,
+                            ease: [0.4, 0, 1, 1],
                           }
                         : {
                             duration: 0.6,
