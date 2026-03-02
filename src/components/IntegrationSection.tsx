@@ -46,12 +46,12 @@ const IntegrationSection = () => {
           className={`text-3xl md:text-4xl font-black text-center mb-3 mode-transition ${
             isChaos ? "text-glow-orange" : ""
           }`}
-          style={{ color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)" }}
+          style={{ color: "hsl(275 80% 60%)" }}
         >
           統合
         </motion.h2>
         <p className="text-muted-foreground text-center mb-16">
-          バラバラだったものを、一つの美しい結晶に
+          バラバラだったものを、一つに
         </p>
 
         {/* Steps */}
@@ -95,7 +95,7 @@ const IntegrationSection = () => {
               <h3
                 className="text-lg font-bold mb-2 mode-transition"
                 style={{
-                  color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)",
+                  color: "hsl(275 80% 60%)",
                 }}
               >
                 {step.title}
@@ -134,16 +134,12 @@ const IntegrationSection = () => {
                 className="relative px-10 py-4 rounded-xl font-black text-lg tracking-wider
                            cursor-pointer overflow-hidden mode-transition"
                 style={{
-                  background: isChaos
-                    ? "linear-gradient(135deg, hsl(18 100% 58%), hsl(275 80% 74%))"
-                    : "linear-gradient(135deg, hsl(199 90% 63%), hsl(210 40% 85%))",
-                  color: "hsl(var(--background))",
+                  background: "hsl(230 60% 30%)",
+                  color: "hsl(0 0% 100%)",
                 }}
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: isChaos
-                    ? "0 0 40px hsl(18 100% 58% / 0.5)"
-                    : "0 0 30px hsl(199 90% 63% / 0.4)",
+                  boxShadow: "0 0 30px hsl(230 60% 30% / 0.5)",
                 }}
                 whileTap={{ scale: 0.95 }}
                 exit={{ scale: 0, opacity: 0 }}
