@@ -13,8 +13,8 @@ const HeroSection = () => {
       setChaosPhase("kaleidoscope");
       return;
     }
-    const t1 = setTimeout(() => setChaosPhase("scatter"), 4000);
-    const t2 = setTimeout(() => setChaosPhase("vanity"), 7000);
+    const t1 = setTimeout(() => setChaosPhase("scatter"), 7000);
+    const t2 = setTimeout(() => setChaosPhase("vanity"), 11000);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [isChaos]);
 
@@ -186,7 +186,7 @@ const HeroSection = () => {
                   ].map((item, i) => (
                     <motion.span
                       key={i}
-                      className="text-3xl md:text-4xl font-black"
+                      className="text-xl md:text-2xl font-black blur-[0.8px]"
                       style={{
                         color: item.color,
                         fontFamily: item.font,
