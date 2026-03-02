@@ -33,7 +33,7 @@ const HeroSection = () => {
   return (
     <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
       {/* Mode toggle at top */}
-      <div className="absolute top-8 right-8 z-40">
+      <div className="absolute top-8 right-8 z-[60]">
         <ModeToggle />
       </div>
 
