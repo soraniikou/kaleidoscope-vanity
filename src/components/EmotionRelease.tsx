@@ -71,9 +71,7 @@ const EmotionRelease = () => {
       >
         {/* Section title */}
         <motion.h2
-          className={`text-3xl md:text-4xl font-black text-center mb-3 mode-transition ${
-            isChaos ? "text-glow-orange chaos-text" : ""
-          }`}
+          className="text-3xl md:text-4xl font-black text-center mb-3 mode-transition"
           style={{ color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)" }}
         >
           {isChaos ? "吐き出せ" : "感情を解放する"}

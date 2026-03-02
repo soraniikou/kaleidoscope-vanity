@@ -77,15 +77,67 @@ const HeroSection = () => {
 
       {/* Title */}
       {isChaos ? (
-        /* Kaleidoscope 3D visual */
-        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
+        /* Explosive kaleidoscope visual */
+        <div className="relative w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] mb-8">
+          {/* Outer explosive shards */}
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={`outer-${i}`}
+              className="absolute"
+              style={{
+                width: "40%",
+                height: "40%",
+                top: "30%",
+                left: "30%",
+                transformOrigin: "center center",
+              }}
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 6 + i * 0.8,
+                repeat: Infinity,
+                ease: "linear",
+                direction: i % 2 === 0 ? "normal" : "reverse",
+              }}
+            >
+              <motion.div
+                className="w-full h-full"
+                style={{
+                  clipPath:
+                    i % 4 === 0
+                      ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
+                      : i % 4 === 1
+                      ? "polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)"
+                      : i % 4 === 2
+                      ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
+                      : "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+                  background: `linear-gradient(${i * 30}deg, 
+                    hsl(${(18 + i * 30) % 360} ${85 + (i % 3) * 5}% ${50 + (i % 4) * 8}% / ${0.7 - (i % 6) * 0.05}), 
+                    hsl(${(275 + i * 25) % 360} 80% 60% / ${0.5 - (i % 4) * 0.05}),
+                    transparent)`,
+                }}
+                animate={{
+                  scale: [1, 1.6, 0.8, 1.4, 1],
+                  rotate: [0, 45, -30, 20, 0],
+                  x: [0, (i % 2 ? 1 : -1) * 30, 0],
+                  y: [0, (i % 3 ? 1 : -1) * 25, 0],
+                }}
+                transition={{
+                  duration: 3 + (i % 4),
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.15,
+                }}
+              />
+            </motion.div>
+          ))}
+          {/* Inner kaleidoscope layers */}
           {[...Array(6)].map((_, i) => (
             <motion.div
-              key={i}
+              key={`inner-${i}`}
               className="absolute inset-0"
               animate={{ rotate: 360 }}
               transition={{
-                duration: 8 + i * 2,
+                duration: 5 + i * 1.5,
                 repeat: Infinity,
                 ease: "linear",
                 direction: i % 2 === 0 ? "normal" : "reverse",
@@ -94,10 +146,10 @@ const HeroSection = () => {
               <motion.div
                 className="absolute"
                 style={{
-                  width: `${60 - i * 6}%`,
-                  height: `${60 - i * 6}%`,
-                  top: `${20 + i * 3}%`,
-                  left: `${20 + i * 3}%`,
+                  width: `${50 - i * 5}%`,
+                  height: `${50 - i * 5}%`,
+                  top: `${25 + i * 2.5}%`,
+                  left: `${25 + i * 2.5}%`,
                   clipPath:
                     i % 3 === 0
                       ? "polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)"
@@ -105,35 +157,35 @@ const HeroSection = () => {
                       ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
                       : "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
                   background: `linear-gradient(${i * 60}deg, 
-                    hsl(${18 + i * 40} ${80 + i * 3}% ${50 + i * 5}% / ${0.6 - i * 0.06}), 
-                    hsl(${275 - i * 30} 80% 74% / ${0.4 - i * 0.04}),
-                    transparent)`,
+                    hsl(${18 + i * 40} ${90}% ${55 + i * 5}% / ${0.8 - i * 0.08}), 
+                    hsl(${275 - i * 30} 85% 65% / ${0.6 - i * 0.06}),
+                    hsl(${0 + i * 20} 90% 50% / ${0.3}))`,
                 }}
                 animate={{
-                  scale: [1, 1.15, 0.95, 1.1, 1],
-                  rotate: [0, 30, -20, 15, 0],
+                  scale: [1, 1.3, 0.85, 1.2, 1],
+                  rotate: [0, 50, -35, 25, 0],
                 }}
                 transition={{
-                  duration: 4 + i,
+                  duration: 2.5 + i * 0.5,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: i * 0.3,
+                  delay: i * 0.2,
                 }}
               />
             </motion.div>
           ))}
-          {/* Central glow */}
+          {/* Central explosive glow */}
           <motion.div
-            className="absolute inset-0 rounded-full blur-2xl"
+            className="absolute inset-[15%] rounded-full blur-3xl"
             style={{
               background:
-                "radial-gradient(circle, hsl(18 100% 58% / 0.3), hsl(275 80% 74% / 0.2), transparent)",
+                "radial-gradient(circle, hsl(18 100% 58% / 0.5), hsl(275 80% 74% / 0.3), hsl(0 90% 50% / 0.2), transparent)",
             }}
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.5, 0.8, 0.5],
+              scale: [1, 1.5, 0.9, 1.3, 1],
+              opacity: [0.6, 1, 0.4, 0.8, 0.6],
             }}
-            transition={{ duration: 3, repeat: Infinity }}
+            transition={{ duration: 2.5, repeat: Infinity }}
           />
         </div>
       ) : (
