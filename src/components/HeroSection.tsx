@@ -77,8 +77,8 @@ const HeroSection = () => {
                       ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
                       : "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
                   background: `linear-gradient(${i * 30}deg, 
-                    hsl(${(18 + i * 30) % 360} ${85 + (i % 3) * 5}% ${50 + (i % 4) * 8}% / ${0.7 - (i % 6) * 0.05}), 
-                    hsl(${(275 + i * 25) % 360} 80% 60% / ${0.5 - (i % 4) * 0.05}),
+                    hsl(${(18 + i * 30) % 360} ${70 + (i % 3) * 5}% ${35 + (i % 4) * 6}% / ${0.7 - (i % 6) * 0.05}), 
+                    hsl(${(275 + i * 25) % 360} 65% 42% / ${0.5 - (i % 4) * 0.05}),
                     transparent)`,
                 }}
                 animate={{
@@ -137,9 +137,9 @@ const HeroSection = () => {
                       ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
                       : "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
                   background: `linear-gradient(${i * 60}deg, 
-                    hsl(${18 + i * 40} ${90}% ${55 + i * 5}% / ${0.8 - i * 0.08}), 
-                    hsl(${275 - i * 30} 85% 65% / ${0.6 - i * 0.06}),
-                    hsl(${0 + i * 20} 90% 50% / ${0.3}))`,
+                    hsl(${18 + i * 40} ${75}% ${38 + i * 4}% / ${0.8 - i * 0.08}), 
+                    hsl(${275 - i * 30} 70% 45% / ${0.6 - i * 0.06}),
+                    hsl(${0 + i * 20} 75% 35% / ${0.3}))`,
                 }}
                 animate={{
                   scale: chaosPhase === "kaleidoscope" ? [1, 1.8, 0.7, 1.5, 1] : 1,
@@ -159,7 +159,7 @@ const HeroSection = () => {
             className="absolute inset-[15%] rounded-full blur-3xl"
             style={{
               background:
-                "radial-gradient(circle, hsl(18 100% 58% / 0.5), hsl(275 80% 74% / 0.3), hsl(0 90% 50% / 0.2), transparent)",
+                "radial-gradient(circle, hsl(18 90% 40% / 0.5), hsl(275 65% 50% / 0.3), hsl(0 75% 35% / 0.2), transparent)",
             }}
             animate={{
               scale: chaosPhase === "vanity" ? 0 : [1, 1.5, 0.9, 1.3, 1],
@@ -198,7 +198,7 @@ const HeroSection = () => {
                       initial={chaosPhase === "vanity" ? { opacity: 0, y: 30 } : false}
                       animate={{
                         opacity: chaosPhase === "decay" ? 0 : 1,
-                        y: chaosPhase === "decay" ? 300 + i * 60 : 0,
+                        y: chaosPhase === "decay" ? 500 + i * 80 : 0,
                         filter: chaosPhase === "decay"
                           ? `blur(${6 + i * 2}px)`
                           : "blur(0.8px)",
@@ -207,8 +207,8 @@ const HeroSection = () => {
                       }}
                       transition={chaosPhase === "decay"
                         ? {
-                            duration: 2.5,
-                            delay: i * 0.3,
+                            duration: 5,
+                            delay: i * 0.5,
                             ease: [0.4, 0, 1, 1],
                           }
                         : {
