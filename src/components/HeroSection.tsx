@@ -13,67 +13,6 @@ const HeroSection = () => {
         <ModeToggle />
       </div>
 
-      {/* Central crystal mark */}
-      <motion.div
-        className="relative mb-12"
-        animate={{
-          rotate: isChaos ? [0, 5, -5, 3, -3, 0] : 0,
-        }}
-        transition={{
-          duration: isChaos ? 1.5 : 0.5,
-          repeat: isChaos ? Infinity : 0,
-        }}
-      >
-        <motion.div
-          className="w-24 h-24 relative"
-          animate={{
-            rotate: isChaos ? 180 : 0,
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        >
-          {/* Diamond shape */}
-          <div
-            className="absolute inset-0 mode-transition"
-            style={{
-              clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-              background: isChaos
-                ? "linear-gradient(135deg, hsl(18 100% 58%), hsl(275 80% 74%))"
-                : "linear-gradient(135deg, hsl(199 90% 63%), hsl(210 40% 85%))",
-            }}
-          />
-          <div
-            className="absolute inset-2 mode-transition"
-            style={{
-              clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-              background: "hsl(var(--background))",
-            }}
-          />
-          <div
-            className="absolute inset-4 mode-transition"
-            style={{
-              clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-              background: isChaos
-                ? "linear-gradient(135deg, hsl(18 100% 58% / 0.5), hsl(275 80% 74% / 0.5))"
-                : "linear-gradient(135deg, hsl(199 90% 63% / 0.3), hsl(210 40% 85% / 0.3))",
-            }}
-          />
-        </motion.div>
-
-        {/* Glow behind crystal */}
-        <motion.div
-          className="absolute inset-0 blur-xl -z-10 mode-transition"
-          animate={{
-            opacity: isChaos ? [0.4, 0.8, 0.4] : [0.2, 0.4, 0.2],
-            scale: isChaos ? [1, 1.3, 1] : [1, 1.1, 1],
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{
-            background: isChaos
-              ? "radial-gradient(circle, hsl(18 100% 58% / 0.5), transparent)"
-              : "radial-gradient(circle, hsl(199 90% 63% / 0.3), transparent)",
-          }}
-        />
-      </motion.div>
 
       {/* Title */}
       {isChaos ? (
@@ -93,7 +32,7 @@ const HeroSection = () => {
               }}
               animate={{ rotate: 360 }}
               transition={{
-                duration: 6 + i * 0.8,
+                duration: 12 + i * 1.6,
                 repeat: Infinity,
                 ease: "linear",
                 direction: i % 2 === 0 ? "normal" : "reverse",
@@ -116,13 +55,13 @@ const HeroSection = () => {
                     transparent)`,
                 }}
                 animate={{
-                  scale: [1, 1.6, 0.8, 1.4, 1],
-                  rotate: [0, 45, -30, 20, 0],
-                  x: [0, (i % 2 ? 1 : -1) * 30, 0],
-                  y: [0, (i % 3 ? 1 : -1) * 25, 0],
+                  scale: [1, 2, 0.6, 1.8, 1],
+                  rotate: [0, 60, -45, 30, 0],
+                  x: [0, (i % 2 ? 1 : -1) * 60, 0],
+                  y: [0, (i % 3 ? 1 : -1) * 50, 0],
                 }}
                 transition={{
-                  duration: 3 + (i % 4),
+                  duration: 6 + (i % 4) * 2,
                   repeat: Infinity,
                   ease: "easeInOut",
                   delay: i * 0.15,
@@ -137,7 +76,7 @@ const HeroSection = () => {
               className="absolute inset-0"
               animate={{ rotate: 360 }}
               transition={{
-                duration: 5 + i * 1.5,
+                duration: 10 + i * 3,
                 repeat: Infinity,
                 ease: "linear",
                 direction: i % 2 === 0 ? "normal" : "reverse",
@@ -162,11 +101,11 @@ const HeroSection = () => {
                     hsl(${0 + i * 20} 90% 50% / ${0.3}))`,
                 }}
                 animate={{
-                  scale: [1, 1.3, 0.85, 1.2, 1],
-                  rotate: [0, 50, -35, 25, 0],
+                  scale: [1, 1.8, 0.7, 1.5, 1],
+                  rotate: [0, 70, -50, 35, 0],
                 }}
                 transition={{
-                  duration: 2.5 + i * 0.5,
+                  duration: 5 + i,
                   repeat: Infinity,
                   ease: "easeInOut",
                   delay: i * 0.2,

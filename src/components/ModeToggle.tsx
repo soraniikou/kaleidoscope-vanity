@@ -77,7 +77,7 @@ const ModeToggle = () => {
 
       {/* Chaos label */}
       <motion.span
-        className={`relative z-10 text-sm font-bold tracking-wider ${isChaos ? "chaos-text" : ""}`}
+        className="relative z-10 text-sm font-bold tracking-wider"
         animate={{
           color: isChaos ? "hsl(18 100% 58%)" : "hsl(220 15% 55%)",
         }}
