@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMode } from "@/contexts/ModeContext";
 import ModeToggle from "./ModeToggle";
 import FlameExplosion from "./FlameExplosion";
+import SpearBurst from "./SpearBurst";
 
 const HeroSection = () => {
   const { mode } = useMode();
@@ -289,6 +290,8 @@ const HeroSection = () => {
         </div>
       ) : (
         /* ===== ORDER MODE - Blue tinted, slower rotation ===== */
+        <>
+        <SpearBurst />
         <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
           {[...Array(6)].map((_, i) => (
             <motion.div
@@ -347,6 +350,7 @@ const HeroSection = () => {
             transition={{ duration: 10, repeat: Infinity }}
           />
         </div>
+        </>
       )}
     </section>
   );
