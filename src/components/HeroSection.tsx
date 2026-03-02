@@ -175,14 +175,14 @@ const HeroSection = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
               >
-                <div className="flex gap-6 md:gap-10">
+                <div className="flex gap-6 md:gap-10" style={{ transform: "rotate(-8deg)" }}>
                   {[
-                    { char: "V", color: "hsl(18 100% 58%)", rotate: -12, font: "serif" },
-                    { char: "A", color: "hsl(275 80% 74%)", rotate: 8, font: "monospace" },
-                    { char: "N", color: "hsl(0 90% 55%)", rotate: -5, font: "cursive" },
-                    { char: "I", color: "hsl(40 100% 55%)", rotate: 15, font: "sans-serif" },
-                    { char: "T", color: "hsl(199 90% 63%)", rotate: -10, font: "fantasy" },
-                    { char: "Y", color: "hsl(330 80% 60%)", rotate: 7, font: "serif" },
+                    { char: "V", color: "hsl(18 100% 58%)", font: "serif" },
+                    { char: "A", color: "hsl(275 80% 74%)", font: "monospace" },
+                    { char: "N", color: "hsl(0 90% 55%)", font: "cursive" },
+                    { char: "I", color: "hsl(40 100% 55%)", font: "sans-serif" },
+                    { char: "T", color: "hsl(199 90% 63%)", font: "fantasy" },
+                    { char: "Y", color: "hsl(330 80% 60%)", font: "serif" },
                   ].map((item, i) => (
                     <motion.span
                       key={i}
@@ -191,27 +191,14 @@ const HeroSection = () => {
                         color: item.color,
                         fontFamily: item.font,
                         display: "inline-block",
+                        textShadow: `0 0 15px ${item.color.replace(")", " / 0.5)")}, 0 0 40px ${item.color.replace(")", " / 0.25)")}`,
                       }}
-                      initial={{ opacity: 0, y: 80, scale: 0, rotate: item.rotate * 4 }}
-                      animate={{
-                        opacity: 1,
-                        y: [0, -15, 10, -8, 5, 0],
-                        x: [0, (i % 2 ? 8 : -8), (i % 2 ? -5 : 5), 0],
-                        scale: [1, 1.2, 0.9, 1.15, 1],
-                        rotate: [item.rotate, item.rotate + 10, item.rotate - 8, item.rotate + 5, item.rotate],
-                        textShadow: [
-                          `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
-                          `0 0 25px ${item.color.replace(")", " / 0.8)")}, 0 0 60px ${item.color.replace(")", " / 0.5)")}`,
-                          `0 0 10px ${item.color.replace(")", " / 0.4)")}, 0 0 30px ${item.color.replace(")", " / 0.2)")}`,
-                        ],
-                      }}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{
-                        opacity: { duration: 0.6, delay: i * 0.25 },
-                        y: { duration: 2.5 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
-                        x: { duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 },
-                        scale: { duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
-                        rotate: { duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 },
-                        textShadow: { duration: 2, repeat: Infinity, delay: i * 0.2 },
+                        duration: 0.6,
+                        delay: i * 0.3,
+                        ease: "easeOut",
                       }}
                     >
                       {item.char}
