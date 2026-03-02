@@ -41,6 +41,44 @@ const HeroSection = () => {
       {/* Flame explosion on touch - chaos mode only */}
       {isChaos && <FlameExplosion />}
 
+      {/* Tap prompt - chaotic text */}
+      {isChaos && chaosPhase === "kaleidoscope" && (
+        <motion.div
+          className="absolute bottom-12 z-[55] flex flex-wrap justify-center gap-1 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.6, 1] }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+        >
+          {["画", "面", "を", "タ", "ッ", "プ", "し", "て"].map((char, i) => (
+            <motion.span
+              key={i}
+              className="text-lg md:text-2xl font-black select-none"
+              style={{
+                fontFamily: ["serif", "monospace", "cursive", "sans-serif", "fantasy"][i % 5],
+                color: [
+                  "hsl(0 90% 65%)", "hsl(40 100% 60%)", "hsl(275 80% 70%)",
+                  "hsl(0 0% 95%)", "hsl(200 85% 65%)", "hsl(330 80% 65%)",
+                  "hsl(45 100% 55%)", "hsl(18 100% 58%)"
+                ][i],
+                textShadow: `0 0 12px ${["hsl(0 90% 65%)", "hsl(40 100% 60%)", "hsl(275 80% 70%)", "hsl(0 0% 95%)", "hsl(200 85% 65%)", "hsl(330 80% 65%)", "hsl(45 100% 55%)", "hsl(18 100% 58%)"][i].replace(")", " / 0.6)")}`,
+              }}
+              animate={{
+                y: [0, -5 + Math.random() * 10, 0],
+                rotate: [-8 + i * 3, 8 - i * 2, -8 + i * 3],
+                scale: [0.9 + Math.random() * 0.3, 1.1 + Math.random() * 0.2, 0.9 + Math.random() * 0.3],
+              }}
+              transition={{
+                duration: 1.5 + Math.random(),
+                repeat: Infinity,
+                delay: i * 0.12,
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </motion.div>
+      )}
+
       {isChaos ? (
         <div className="relative w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] mb-8">
           {/* Outer explosive shards - flame colored, scatter wildly */}
