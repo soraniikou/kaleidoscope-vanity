@@ -1,10 +1,22 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useMode } from "@/contexts/ModeContext";
 import ModeToggle from "./ModeToggle";
 
 const HeroSection = () => {
   const { mode } = useMode();
   const isChaos = mode === "chaos";
+  const [chaosPhase, setChaosPhase] = useState<"kaleidoscope" | "scatter" | "vanity">("kaleidoscope");
+
+  useEffect(() => {
+    if (!isChaos) {
+      setChaosPhase("kaleidoscope");
+      return;
+    }
+    const t1 = setTimeout(() => setChaosPhase("scatter"), 4000);
+    const t2 = setTimeout(() => setChaosPhase("vanity"), 7000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [isChaos]);
 
   return (
     <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
@@ -13,10 +25,7 @@ const HeroSection = () => {
         <ModeToggle />
       </div>
 
-
-      {/* Title */}
       {isChaos ? (
-        /* Explosive kaleidoscope visual */
         <div className="relative w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] mb-8">
           {/* Outer explosive shards */}
           {[...Array(12)].map((_, i) => (
@@ -30,12 +39,28 @@ const HeroSection = () => {
                 left: "30%",
                 transformOrigin: "center center",
               }}
-              animate={{ rotate: 360 }}
+              animate={{
+                rotate: 360,
+                x: chaosPhase === "scatter" || chaosPhase === "vanity"
+                  ? (i % 2 ? 1 : -1) * (150 + i * 30)
+                  : 0,
+                y: chaosPhase === "scatter" || chaosPhase === "vanity"
+                  ? (i % 3 ? 1 : -1) * (120 + i * 25)
+                  : 0,
+                opacity: chaosPhase === "vanity" ? 0 : 1,
+                scale: chaosPhase === "scatter" ? 0.6 : chaosPhase === "vanity" ? 0.2 : 1,
+              }}
               transition={{
-                duration: 12 + i * 1.6,
-                repeat: Infinity,
-                ease: "linear",
-                direction: i % 2 === 0 ? "normal" : "reverse",
+                rotate: {
+                  duration: 12 + i * 1.6,
+                  repeat: Infinity,
+                  ease: "linear",
+                  direction: i % 2 === 0 ? "normal" : "reverse",
+                },
+                x: { duration: 3, ease: "easeInOut" },
+                y: { duration: 3, ease: "easeInOut" },
+                opacity: { duration: 2, ease: "easeOut" },
+                scale: { duration: 3, ease: "easeInOut" },
               }}
             >
               <motion.div
@@ -55,14 +80,12 @@ const HeroSection = () => {
                     transparent)`,
                 }}
                 animate={{
-                  scale: [1, 2, 0.6, 1.8, 1],
-                  rotate: [0, 60, -45, 30, 0],
-                  x: [0, (i % 2 ? 1 : -1) * 60, 0],
-                  y: [0, (i % 3 ? 1 : -1) * 50, 0],
+                  scale: chaosPhase === "kaleidoscope" ? [1, 2, 0.6, 1.8, 1] : 1,
+                  rotate: chaosPhase === "kaleidoscope" ? [0, 60, -45, 30, 0] : 0,
                 }}
                 transition={{
                   duration: 6 + (i % 4) * 2,
-                  repeat: Infinity,
+                  repeat: chaosPhase === "kaleidoscope" ? Infinity : 0,
                   ease: "easeInOut",
                   delay: i * 0.15,
                 }}
@@ -74,12 +97,28 @@ const HeroSection = () => {
             <motion.div
               key={`inner-${i}`}
               className="absolute inset-0"
-              animate={{ rotate: 360 }}
+              animate={{
+                rotate: 360,
+                x: chaosPhase === "scatter" || chaosPhase === "vanity"
+                  ? (i % 2 ? -1 : 1) * (100 + i * 40)
+                  : 0,
+                y: chaosPhase === "scatter" || chaosPhase === "vanity"
+                  ? (i % 2 ? 1 : -1) * (80 + i * 35)
+                  : 0,
+                opacity: chaosPhase === "vanity" ? 0 : 1,
+                scale: chaosPhase === "scatter" ? 0.5 : chaosPhase === "vanity" ? 0.1 : 1,
+              }}
               transition={{
-                duration: 10 + i * 3,
-                repeat: Infinity,
-                ease: "linear",
-                direction: i % 2 === 0 ? "normal" : "reverse",
+                rotate: {
+                  duration: 10 + i * 3,
+                  repeat: Infinity,
+                  ease: "linear",
+                  direction: i % 2 === 0 ? "normal" : "reverse",
+                },
+                x: { duration: 3.5, ease: "easeInOut" },
+                y: { duration: 3.5, ease: "easeInOut" },
+                opacity: { duration: 2, ease: "easeOut" },
+                scale: { duration: 3, ease: "easeInOut" },
               }}
             >
               <motion.div
@@ -101,12 +140,12 @@ const HeroSection = () => {
                     hsl(${0 + i * 20} 90% 50% / ${0.3}))`,
                 }}
                 animate={{
-                  scale: [1, 1.8, 0.7, 1.5, 1],
-                  rotate: [0, 70, -50, 35, 0],
+                  scale: chaosPhase === "kaleidoscope" ? [1, 1.8, 0.7, 1.5, 1] : 1,
+                  rotate: chaosPhase === "kaleidoscope" ? [0, 70, -50, 35, 0] : 0,
                 }}
                 transition={{
                   duration: 5 + i,
-                  repeat: Infinity,
+                  repeat: chaosPhase === "kaleidoscope" ? Infinity : 0,
                   ease: "easeInOut",
                   delay: i * 0.2,
                 }}
@@ -121,11 +160,38 @@ const HeroSection = () => {
                 "radial-gradient(circle, hsl(18 100% 58% / 0.5), hsl(275 80% 74% / 0.3), hsl(0 90% 50% / 0.2), transparent)",
             }}
             animate={{
-              scale: [1, 1.5, 0.9, 1.3, 1],
-              opacity: [0.6, 1, 0.4, 0.8, 0.6],
+              scale: chaosPhase === "vanity" ? 0 : [1, 1.5, 0.9, 1.3, 1],
+              opacity: chaosPhase === "vanity" ? 0 : [0.6, 1, 0.4, 0.8, 0.6],
             }}
-            transition={{ duration: 2.5, repeat: Infinity }}
+            transition={{ duration: 2.5, repeat: chaosPhase === "kaleidoscope" ? Infinity : 0 }}
           />
+
+          {/* VANITY text emerging */}
+          <AnimatePresence>
+            {chaosPhase === "vanity" && (
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.3 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 2, ease: "easeOut" }}
+              >
+                <motion.h1
+                  className="text-6xl md:text-8xl font-black tracking-[0.2em] text-glow-orange"
+                  style={{ color: "hsl(18 100% 58%)" }}
+                  animate={{
+                    textShadow: [
+                      "0 0 20px hsl(18 100% 58% / 0.5), 0 0 60px hsl(275 80% 74% / 0.3)",
+                      "0 0 40px hsl(18 100% 58% / 0.8), 0 0 80px hsl(275 80% 74% / 0.5)",
+                      "0 0 20px hsl(18 100% 58% / 0.5), 0 0 60px hsl(275 80% 74% / 0.3)",
+                    ],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  VANITY
+                </motion.h1>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       ) : (
         <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
@@ -195,21 +261,6 @@ const HeroSection = () => {
           </motion.p>
         </div>
       )}
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-12"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
-          <motion.div
-            className="w-1 h-2 rounded-full bg-muted-foreground/50"
-            animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </div>
-      </motion.div>
     </section>
   );
 };
