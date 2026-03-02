@@ -76,38 +76,82 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Title */}
-      <motion.div
-        className="text-center mb-8"
-        animate={{
-          x: isChaos ? [0, -2, 3, -1, 2, 0] : 0,
-        }}
-        transition={{
-          duration: 0.8,
-          repeat: isChaos ? Infinity : 0,
-          repeatType: "reverse",
-        }}
-      >
-        <motion.h1
-          className={`text-5xl md:text-7xl font-black tracking-tight mb-4 mode-transition ${
-            isChaos ? "text-glow-orange" : "text-glow-blue"
-          }`}
-          animate={{
-            color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)",
-          }}
-        >
-          {isChaos ? "解き放て" : "ALICE"}
-        </motion.h1>
-        <motion.p
-          className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mode-transition"
-          animate={{
-            letterSpacing: isChaos ? "0.15em" : "0.05em",
-          }}
-        >
-          {isChaos
-            ? "怒りも虚しさも、全てはあなたのエネルギー"
-            : "カオスからロゴスへ。思考を軽くする統合の旅"}
-        </motion.p>
-      </motion.div>
+      {isChaos ? (
+        /* Kaleidoscope 3D visual */
+        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute inset-0"
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: Infinity,
+                ease: "linear",
+                direction: i % 2 === 0 ? "normal" : "reverse",
+              }}
+            >
+              <motion.div
+                className="absolute"
+                style={{
+                  width: `${60 - i * 6}%`,
+                  height: `${60 - i * 6}%`,
+                  top: `${20 + i * 3}%`,
+                  left: `${20 + i * 3}%`,
+                  clipPath:
+                    i % 3 === 0
+                      ? "polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)"
+                      : i % 3 === 1
+                      ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
+                      : "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
+                  background: `linear-gradient(${i * 60}deg, 
+                    hsl(${18 + i * 40} ${80 + i * 3}% ${50 + i * 5}% / ${0.6 - i * 0.06}), 
+                    hsl(${275 - i * 30} 80% 74% / ${0.4 - i * 0.04}),
+                    transparent)`,
+                }}
+                animate={{
+                  scale: [1, 1.15, 0.95, 1.1, 1],
+                  rotate: [0, 30, -20, 15, 0],
+                }}
+                transition={{
+                  duration: 4 + i,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.3,
+                }}
+              />
+            </motion.div>
+          ))}
+          {/* Central glow */}
+          <motion.div
+            className="absolute inset-0 rounded-full blur-2xl"
+            style={{
+              background:
+                "radial-gradient(circle, hsl(18 100% 58% / 0.3), hsl(275 80% 74% / 0.2), transparent)",
+            }}
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+        </div>
+      ) : (
+        <motion.div className="text-center mb-8">
+          <motion.h1
+            className="text-5xl md:text-7xl font-black tracking-tight mb-4 mode-transition text-glow-blue"
+            animate={{ color: "hsl(199 90% 63%)" }}
+          >
+            ALICE
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mode-transition"
+            animate={{ letterSpacing: "0.05em" }}
+          >
+            カオスからロゴスへ。思考を軽くする統合の旅
+          </motion.p>
+        </motion.div>
+      )}
 
       {/* Scroll indicator */}
       <motion.div
