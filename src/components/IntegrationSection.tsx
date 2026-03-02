@@ -144,46 +144,17 @@ const IntegrationSection = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
               >
-                {/* Crystal result */}
+                {/* Spade symbol */}
                 <motion.div
-                  className="w-32 h-32 mx-auto mb-6 relative"
+                  className="w-32 h-32 mx-auto mb-6 relative flex items-center justify-center"
                   animate={{ rotate: [0, 360] }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      clipPath:
-                        "polygon(50% 0%, 80% 10%, 100% 40%, 90% 70%, 60% 100%, 30% 90%, 0% 60%, 10% 30%)",
-                      background:
-                        "linear-gradient(135deg, hsl(199 90% 63%), hsl(18 100% 58%), hsl(275 80% 74%), hsl(210 40% 85%))",
-                    }}
-                  />
-                  <div
-                    className="absolute inset-3"
-                    style={{
-                      clipPath:
-                        "polygon(50% 0%, 80% 10%, 100% 40%, 90% 70%, 60% 100%, 30% 90%, 0% 60%, 10% 30%)",
-                      background: "hsl(var(--background))",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute inset-6"
-                    style={{
-                      clipPath:
-                        "polygon(50% 0%, 80% 10%, 100% 40%, 90% 70%, 60% 100%, 30% 90%, 0% 60%, 10% 30%)",
-                      background:
-                        "linear-gradient(135deg, hsl(199 90% 63% / 0.5), hsl(18 100% 58% / 0.5), hsl(275 80% 74% / 0.5))",
-                    }}
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                  />
-                  {/* Glow */}
+                  <span className="text-7xl" style={{ color: "hsl(330 80% 65%)" }}>♤</span>
                   <motion.div
                     className="absolute -inset-4 blur-2xl -z-10"
                     style={{
-                      background:
-                        "radial-gradient(circle, hsl(199 90% 63% / 0.3), hsl(18 100% 58% / 0.2), transparent)",
+                      background: "radial-gradient(circle, hsl(330 80% 65% / 0.4), transparent)",
                     }}
                     animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
                     transition={{ duration: 3, repeat: Infinity }}
@@ -192,25 +163,12 @@ const IntegrationSection = () => {
 
                 <motion.p
                   className="text-xl font-black mb-2"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, hsl(199 90% 63%), hsl(18 100% 58%), hsl(275 80% 74%))",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
+                  style={{ color: "hsl(0 80% 55%)" }}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  それも、あなただ。
-                </motion.p>
-                <motion.p
-                  className="text-sm text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  全ての感情が、一つの美しい結晶になった
+                  That's you.
                 </motion.p>
 
                 {/* Reset */}
