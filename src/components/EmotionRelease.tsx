@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMode } from "@/contexts/ModeContext";
 
 const EMOTION_TAGS = [
-  { label: "怒り", color: "glow-orange" },
-  { label: "虚しさ", color: "glow-violet" },
-  { label: "焦り", color: "glow-orange" },
-  { label: "悲しみ", color: "glow-blue" },
-  { label: "苛立ち", color: "glow-orange" },
-  { label: "不安", color: "glow-violet" },
+  { label: "怒り", textColor: "hsl(0 80% 50%)" },
+  { label: "虚しさ", textColor: "hsl(275 80% 60%)" },
+  { label: "焦り", textColor: "hsl(50 100% 50%)" },
+  { label: "悲しみ", textColor: "hsl(199 90% 63%)" },
+  { label: "苛立ち", textColor: "hsl(330 80% 65%)" },
+  { label: "不安", textColor: "hsl(140 70% 45%)" },
 ];
 
 interface SparkParticle {
@@ -93,9 +93,10 @@ const EmotionRelease = () => {
                   border mode-transition cursor-pointer overflow-hidden
                   ${
                     isReleased
-                      ? "border-primary/20 bg-primary/10 text-primary/50"
-                      : "border-border bg-card/60 backdrop-blur-sm text-foreground hover:border-primary/50"
+                      ? "border-primary/20 bg-primary/10 opacity-50"
+                      : "border-border bg-card/60 backdrop-blur-sm hover:border-primary/50"
                   }`}
+                style={{ color: tag.textColor }}
                 whileHover={
                   !isReleased
                     ? {
