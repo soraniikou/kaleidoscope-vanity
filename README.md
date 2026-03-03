@@ -1,4 +1,4 @@
-⚔️理性と解放
+⚔️秩序と解放
 
 https://kaleidoscope-vanity.lovable.app
 
@@ -16,7 +16,7 @@ https://kaleidoscope-vanity.lovable.app
 <img width="193" height="364" alt="paranoia" src="https://github.com/user-attachments/assets/43889948-5f25-4774-a74c-c30bb81b77f8" />
 
 
-♠️画面右上の理性または解放モデルをお選び下さい
+♠️画面右上の秩序または解放モデルをお選び下さい
 
 画面の好きな場所をタップし感じてください
 アプリ体験↓
