@@ -71,16 +71,15 @@ const EmotionRelease = () => {
       >
         {/* Section title */}
         <motion.h2
-          className="text-3xl md:text-4xl font-black text-center mb-3 mode-transition"
-          style={{ color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)" }}
+          className="text-3xl md:text-4xl font-black text-center mb-10 mode-transition"
+          style={{
+            color: isChaos ? "hsl(18 100% 58%)" : "hsl(199 90% 63%)",
+            fontStyle: isChaos ? "italic" : "normal",
+            transform: isChaos ? "rotate(-3deg) skewX(-5deg)" : "none",
+          }}
         >
           {isChaos ? "吐き出せ" : "感情を解放する"}
         </motion.h2>
-        <p className="text-muted-foreground text-center mb-10">
-          {isChaos
-            ? "全力で。遠慮なく。ここは安全な場所だ。"
-            : "抑え込んでいた感情に名前を付けて、外に出そう"}
-        </p>
 
         {/* Emotion tags */}
         <div className="flex flex-wrap justify-center gap-3 mb-8">
@@ -142,15 +141,92 @@ const EmotionRelease = () => {
             />
             <motion.button
               onClick={releaseText}
-              className="px-6 py-3 rounded-lg font-bold text-sm tracking-wider
-                         bg-primary text-primary-foreground cursor-pointer mode-transition"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 20px hsl(18 100% 58% / 0.4)",
+              className="relative px-5 py-3 rounded-lg font-bold text-sm tracking-wider
+                         cursor-pointer mode-transition overflow-visible"
+              style={{
+                background: isChaos
+                  ? "linear-gradient(135deg, hsl(0 80% 45%), hsl(18 100% 58%), hsl(30 100% 55%))"
+                  : "hsl(var(--primary))",
+                color: "hsl(var(--primary-foreground))",
               }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{
+                scale: 1.1,
+                boxShadow: isChaos
+                  ? "0 0 30px hsl(18 100% 58% / 0.6), 0 0 60px hsl(0 80% 50% / 0.3)"
+                  : "0 0 20px hsl(18 100% 58% / 0.4)",
+              }}
+              whileTap={{ scale: 0.85 }}
+              animate={isChaos ? { 
+                boxShadow: [
+                  "0 0 10px hsl(18 100% 58% / 0.3)",
+                  "0 0 25px hsl(0 80% 50% / 0.5)",
+                  "0 0 10px hsl(18 100% 58% / 0.3)",
+                ]
+              } : {}}
+              transition={isChaos ? { duration: 1.5, repeat: Infinity } : {}}
             >
-              {isChaos ? "放て" : "解放"}
+              {/* Spear visuals on chaos mode */}
+              {isChaos && (
+                <>
+                  {/* Top spear */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      width: "3px",
+                      height: "28px",
+                      background: "linear-gradient(180deg, transparent, hsl(0 0% 90%), hsl(210 80% 70%))",
+                      top: "-26px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }}
+                    animate={{ height: ["28px", "34px", "28px"], opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      width: "0",
+                      height: "0",
+                      borderLeft: "6px solid transparent",
+                      borderRight: "6px solid transparent",
+                      borderBottom: "12px solid hsl(210 80% 70%)",
+                      top: "-38px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }}
+                    animate={{ top: ["-38px", "-44px", "-38px"] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
+                  {/* Side spears */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      width: "22px",
+                      height: "3px",
+                      background: "linear-gradient(90deg, transparent, hsl(18 100% 58%))",
+                      top: "50%",
+                      right: "-20px",
+                      transform: "translateY(-50%)",
+                    }}
+                    animate={{ width: ["22px", "28px", "22px"] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      width: "22px",
+                      height: "3px",
+                      background: "linear-gradient(-90deg, transparent, hsl(18 100% 58%))",
+                      top: "50%",
+                      left: "-20px",
+                      transform: "translateY(-50%)",
+                    }}
+                    animate={{ width: ["22px", "28px", "22px"] }}
+                    transition={{ duration: 0.8, repeat: Infinity, delay: 0.4 }}
+                  />
+                </>
+              )}
+              {isChaos ? "⚔" : "解放"}
             </motion.button>
           </motion.div>
 
